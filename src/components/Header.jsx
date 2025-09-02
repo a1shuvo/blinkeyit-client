@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import logo from "../assets/logo.png";
 import Search from "./Search";
 
@@ -7,7 +8,7 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between h-full px-2">
         {/* Logo */}
         <div>
-          <div>
+          <Link to={"/"}>
             <img
               src={logo}
               width={170}
@@ -22,7 +23,7 @@ const Header = () => {
               alt="Blinkeyit Logo"
               className="lg:hidden"
             />
-          </div>
+          </Link>
         </div>
 
         {/* Search */}
