@@ -1,5 +1,6 @@
+import { BsCart4 } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import logo from "../assets/logo.png";
 import useMobile from "../hooks/useMobile";
 import Search from "./Search";
@@ -8,6 +9,11 @@ const Header = () => {
   const isMobile = useMobile();
   const location = useLocation();
   const isSearchPage = location?.pathname === "/search";
+  const navigate = useNavigate();
+
+  const redirectToLoginPage = () => {
+    navigate("/login");
+  };
 
   return (
     <header className="h-24 lg:h-20 lg:shadow-md sticky top-0 flex flex-col justify-center gap-1">
@@ -40,10 +46,25 @@ const Header = () => {
 
           {/* Login & My Cart */}
           <div>
+            {/* Display icon in mobile devices */}
             <button className="text-neutral-600 lg:hidden">
               <FaRegUserCircle size={25} />
             </button>
-            <div className="hidden lg:block">Login & My Cart</div>
+            {/* For Desktop */}
+            <div className="hidden lg:flex items-center gap-10">
+              <button onClick={redirectToLoginPage} className="text-lg px-2">
+                Login
+              </button>
+              <button className="flex items-center gap-2 bg-green-800 hover:bg-green-700 p-3 rounded text-white">
+                {/* Add to cart icon */}
+                <div className="animate-bounce">
+                  <BsCart4 size={26} />
+                </div>
+                <div className="font-semibold">
+                  <p>My Cart</p>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       )}
