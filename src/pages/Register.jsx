@@ -1,5 +1,10 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router";
+import SummaryApi from "../common/SummaryApi";
+import Axios from "../utils/Axios";
+import AxiosToastError from "../utils/AxiosToastError";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -11,6 +16,7 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +29,48 @@ const Register = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and Confirm Password must be same!");
+      return;
+    }
+
+    try {
+      const response = await Axios({
+        ...SummaryApi.register,
+        data: data,
+      });
+
+      if (response?.data?.error) {
+        toast.error(response?.data?.message);
+      }
+
+      if (response?.data?.success) {
+        toast.success(response?.data?.message);
+        setData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        navigate("/login");
+      }
+
+      console.log("res", response);
+    } catch (error) {
+      AxiosToastError(error);
+    }
+  };
+
   const validData = Object.values(data).every((el) => el);
   return (
     <section className="w-full container mx-auto px-2">
       <div className="bg-white my-4 w-full max-w-lg mx-auto rounded p-7">
         <p>Welcome to Blinkeyit</p>
 
-        <form className="grid gap-4 mt-6">
+        <form className="grid gap-4 mt-6" onSubmit={handleSubmit}>
           <div className="grid gap-1">
             <label htmlFor="name">Name :</label>
             <input
@@ -97,13 +138,24 @@ const Register = () => {
           </div>
 
           <button
+            disabled={!validData}
             className={`${
-              validData ? "bg-green-800" : "bg-gray-500"
-            } text-white py-2 rounded font-semibold my-3 tracking-wide`}
+              validData ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"
+            } text-white py-2 rounded font-semibold my-3 tracking-wide cursor-pointer`}
           >
             Register
           </button>
         </form>
+
+        <p>
+          Already have an account?{" "}
+          <Link
+            to={"/login"}
+            className="font-semibold text-green-700 hover:text-green-800"
+          >
+            Login
+          </Link>
+        </p>
       </div>
     </section>
   );
