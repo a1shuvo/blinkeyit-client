@@ -52,10 +52,13 @@ const Header = () => {
             </button>
             {/* For Desktop */}
             <div className="hidden lg:flex items-center gap-10">
-              <button onClick={redirectToLoginPage} className="text-lg px-2">
+              <button
+                onClick={redirectToLoginPage}
+                className="text-lg px-2 cursor-pointer"
+              >
                 Login
               </button>
-              <button className="flex items-center gap-2 bg-green-800 hover:bg-green-700 p-3 rounded text-white">
+              <button className="flex items-center gap-2 bg-green-800 hover:bg-green-700 p-3 rounded text-white cursor-pointer">
                 {/* Add to cart icon */}
                 <div className="animate-bounce">
                   <BsCart4 size={26} />
