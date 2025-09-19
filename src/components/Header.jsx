@@ -1,5 +1,6 @@
 import { BsCart4 } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router";
 import logo from "../assets/logo.png";
 import useMobile from "../hooks/useMobile";
@@ -10,6 +11,8 @@ const Header = () => {
   const location = useLocation();
   const isSearchPage = location?.pathname === "/search";
   const navigate = useNavigate();
+  const user = useSelector((state) => state?.user);
+  console.log("store", user);
 
   const redirectToLoginPage = () => {
     navigate("/login");
