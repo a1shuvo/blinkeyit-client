@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
-import { GoTriangleDown } from "react-icons/go";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router";
 import logo from "../assets/logo.png";
 import useMobile from "../hooks/useMobile";
 import Search from "./Search";
+import UserMenu from "./UserMenu";
 
 const Header = () => {
   const isMobile = useMobile();
@@ -13,6 +15,7 @@ const Header = () => {
   const isSearchPage = location?.pathname === "/search";
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
   console.log("store", user);
 
   const redirectToLoginPage = () => {
@@ -57,12 +60,25 @@ const Header = () => {
             {/* For Desktop */}
             <div className="hidden lg:flex items-center gap-10">
               {user?._id ? (
-                <div>
-                  <div className="flex items-center gap-2">
+                <div className="relative">
+                  <div
+                    onClick={() => setOpenUserMenu((prev) => !prev)}
+                    className="flex items-center gap-1 cursor-pointer select-none"
+                  >
                     <p>Account</p>
-                    <GoTriangleDown />
-                    {/* <GoTriangleUp /> */}
+                    {openUserMenu ? (
+                      <GoTriangleUp size={25} />
+                    ) : (
+                      <GoTriangleDown size={25} />
+                    )}
                   </div>
+                  {openUserMenu && (
+                    <div className="absolute right-0 top-12">
+                      <div className="bg-white rounded min-w-52 p-4 lg:shadow-lg">
+                        <UserMenu />
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <button
