@@ -10,14 +10,22 @@ import fetchUserDetails from "./utils/fetchUserDetails";
 
 function App() {
   const dispatch = useDispatch();
-  const fetchUser = async () => {
-    const userData = await fetchUserDetails();
-    dispatch(setUserDetails(userData.data));
-  };
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await fetchUserDetails();
+        if (userData?.data) {
+          dispatch(setUserDetails(userData.data));
+        }
+      } catch (error) {
+        console.error("Failed to fetch user details:", error);
+        // Optional: redirect to login or show toast
+      }
+    };
+
     fetchUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -26,7 +34,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
-      <Toaster />
+      <Toaster position="top-right" />
     </>
   );
 }
