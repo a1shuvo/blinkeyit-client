@@ -7,7 +7,7 @@ import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 import Divider from "./Divider";
 
-const UserMenu = () => {
+const UserMenu = ({ close }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleLogout = async () => {
@@ -16,6 +16,7 @@ const UserMenu = () => {
         ...SummaryApi.logout,
       });
       if (response.data.success) {
+        close();
         dispatch(logout());
         localStorage.clear();
         toast.success(response.data.message);
