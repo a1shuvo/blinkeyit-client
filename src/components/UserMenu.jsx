@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SummaryApi from "../common/SummaryApi";
 import { logout } from "../store/userSlice";
 import Axios from "../utils/Axios";
@@ -10,16 +10,20 @@ import Divider from "./Divider";
 const UserMenu = ({ close }) => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.logout,
       });
       if (response.data.success) {
-        close();
+        if (close) {
+          close();
+        }
         dispatch(logout());
         localStorage.clear();
         toast.success(response.data.message);
+        navigate("/");
       }
     } catch (error) {
       AxiosToastError(error);
