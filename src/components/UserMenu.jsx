@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { HiOutlineExternalLink } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router";
 import SummaryApi from "../common/SummaryApi";
@@ -32,13 +33,26 @@ const UserMenu = ({ close }) => {
   return (
     <div>
       <div className="font-semibold">My Account</div>
-      <div className="text-sm">{user.name || user.mobile} </div>
+      <div className="text-sm flex items-center gap-2">
+        <span className="max-w-52 text-ellipsis line-clamp-1">
+          {user.name || user.mobile}{" "}
+        </span>
+        <Link className="hover:text-primary-200" to={"/dashboard/profile"}>
+          <HiOutlineExternalLink size={15} />
+        </Link>{" "}
+      </div>
       <Divider />
       <div className="text-sm grid gap-1">
-        <Link to={""} className="px-2 hover:bg-orange-200 py-1">
+        <Link
+          to={"/dashboard/my-orders"}
+          className="px-2 hover:bg-orange-200 py-1"
+        >
           My Orders
         </Link>
-        <Link to={""} className="px-2 hover:bg-orange-200 py-1">
+        <Link
+          to={"/dashboard/address"}
+          className="px-2 hover:bg-orange-200 py-1"
+        >
           Save Address
         </Link>
         <button
