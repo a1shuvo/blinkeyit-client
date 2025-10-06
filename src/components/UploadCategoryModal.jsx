@@ -6,7 +6,7 @@ import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 import uploadImage from "../utils/uploadImage";
 
-const UploadCategoryModal = ({ close }) => {
+const UploadCategoryModal = ({ close, fetchData }) => {
   const [data, setData] = useState({
     name: "",
     image: "",
@@ -37,8 +37,9 @@ const UploadCategoryModal = ({ close }) => {
       const { data: responseData } = response;
 
       if (responseData?.success) {
-        toast.success(responseData.message);
+        toast.success(responseData?.message);
         close();
+        fetchData();
       }
     } catch (error) {
       AxiosToastError(error);

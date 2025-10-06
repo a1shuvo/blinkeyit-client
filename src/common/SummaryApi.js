@@ -42,12 +42,20 @@ const SummaryApi = {
     method: "put",
   },
   add_category: {
-    url: "/api/category/add-category",
+    url: "/api/category/add",
     method: "post",
   },
   upload_image: {
     url: "/api/file/upload",
     method: "post",
+  },
+  get_category: {
+    url: "/api/category/get",
+    method: "get",
+  },
+  update_category: {
+    url: "/api/category/update",
+    method: "put",
   },
 };
 
