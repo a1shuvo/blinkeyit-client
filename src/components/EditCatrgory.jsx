@@ -6,10 +6,11 @@ import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 import uploadImage from "../utils/uploadImage";
 
-const UploadCategoryModal = ({ close, fetchData }) => {
+const EditCatrgory = ({ close, fetchData, data: categoryData }) => {
   const [data, setData] = useState({
-    name: "",
-    image: "",
+    _id: categoryData._id,
+    name: categoryData.name,
+    image: categoryData.image,
   });
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +32,7 @@ const UploadCategoryModal = ({ close, fetchData }) => {
       setLoading(true);
 
       const response = await Axios({
-        ...SummaryApi.add_category,
+        ...SummaryApi.update_category,
         data: data,
       });
       const { data: responseData } = response;
@@ -54,8 +55,10 @@ const UploadCategoryModal = ({ close, fetchData }) => {
       return;
     }
 
+    setLoading(true);
     const response = await uploadImage(file);
     const { data: imageResponse } = response;
+    setLoading(false);
 
     setData((prev) => {
       return {
@@ -68,7 +71,7 @@ const UploadCategoryModal = ({ close, fetchData }) => {
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800/60 flex items-center justify-center">
       <div className="bg-white max-w-4xl w-full p-4 rounded">
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold">Category</h1>
+          <h1 className="font-semibold">Update Category</h1>
           <button
             onClick={close}
             className="w-fit block ml-auto cursor-pointer"
@@ -132,7 +135,7 @@ const UploadCategoryModal = ({ close, fetchData }) => {
             } py-2 rounded font-medium`}
             disabled={loading}
           >
-            Add Category
+            Update Category
           </button>
         </form>
       </div>
@@ -140,4 +143,4 @@ const UploadCategoryModal = ({ close, fetchData }) => {
   );
 };
 
-export default UploadCategoryModal;
+export default EditCatrgory;
