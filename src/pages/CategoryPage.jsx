@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import SummaryApi from "../common/SummaryApi";
+import ConfirmBox from "../components/ConfirmBox";
 import EditCatrgory from "../components/EditCatrgory";
 import Loading from "../components/Loading";
 import NoData from "../components/NoData";
@@ -15,6 +17,10 @@ const CategoryPage = () => {
   const [editData, setEditData] = useState({
     name: "",
     image: "",
+  });
+  const [openConfirmBoxDelete, setOpenConfirmBoxDelete] = useState(false);
+  const [deleteCategory, setDeleteCategory] = useState({
+    _id: "",
   });
 
   const fetchCategory = async () => {
@@ -37,6 +43,23 @@ const CategoryPage = () => {
   useEffect(() => {
     fetchCategory();
   }, []);
+
+  const handleDeleteCategory = async () => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.delete_category,
+        data: deleteCategory,
+      });
+      const { data: responseData } = response;
+      if (responseData?.success) {
+        toast.success(responseData.message);
+        fetchCategory();
+        setOpenConfirmBoxDelete(false);
+      }
+    } catch (error) {
+      AxiosToastError(error);
+    }
+  };
   return (
     <section>
       <div className="p-2 bg-white shadow-md flex items-center justify-between">
@@ -52,9 +75,9 @@ const CategoryPage = () => {
       {!categoryData[0] && !loading && <NoData />}
 
       <div className="p-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {categoryData.map((category, index) => {
+        {categoryData.map((category) => {
           return (
-            <div key={index} className="w-32 h-56 rounded shadow-md">
+            <div key={category._id} className="w-32 h-56 rounded shadow-md">
               <img
                 src={category.image}
                 alt={category.name}
@@ -70,7 +93,13 @@ const CategoryPage = () => {
                 >
                   Edit
                 </button>
-                <button className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded cursor-pointer">
+                <button
+                  onClick={() => {
+                    setOpenConfirmBoxDelete(true);
+                    setDeleteCategory(category);
+                  }}
+                  className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded cursor-pointer"
+                >
                   Delete
                 </button>
               </div>
@@ -92,6 +121,14 @@ const CategoryPage = () => {
           data={editData}
           fetchData={fetchCategory}
           close={() => setOpenEdit(false)}
+        />
+      )}
+
+      {openConfirmBoxDelete && (
+        <ConfirmBox
+          confirm={handleDeleteCategory}
+          cancel={() => setOpenConfirmBoxDelete(false)}
+          close={() => setOpenConfirmBoxDelete(false)}
         />
       )}
     </section>

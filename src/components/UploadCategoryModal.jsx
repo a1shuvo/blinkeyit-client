@@ -54,8 +54,10 @@ const UploadCategoryModal = ({ close, fetchData }) => {
       return;
     }
 
+    setLoading(true);
     const response = await uploadImage(file);
     const { data: imageResponse } = response;
+    setLoading(false);
 
     setData((prev) => {
       return {
