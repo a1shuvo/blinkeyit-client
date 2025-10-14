@@ -6,7 +6,7 @@ import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 import uploadImage from "../utils/uploadImage";
 
-const EditCatrgory = ({ close, fetchData, data: categoryData }) => {
+const EditCategory = ({ close, fetchData, data: categoryData }) => {
   const [data, setData] = useState({
     _id: categoryData._id,
     name: categoryData.name,
@@ -143,4 +143,4 @@ const EditCatrgory = ({ close, fetchData, data: categoryData }) => {
   );
 };
 
-export default EditCatrgory;
+export default EditCategory;

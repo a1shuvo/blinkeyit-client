@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import uploadImage from "../utils/uploadImage";
 
 const UploadSubCategoryModal = ({ close }) => {
   const [subCategoryData, setSubCategoryData] = useState({
@@ -15,6 +16,25 @@ const UploadSubCategoryModal = ({ close }) => {
       return {
         ...prev,
         [name]: value,
+      };
+    });
+  };
+
+  const handleUploadSubCategoryImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    setLoading(true);
+    const response = await uploadImage(file);
+    const { data: imageResponse } = response;
+    setLoading(false);
+
+    setSubCategoryData((prev) => {
+      return {
+        ...prev,
+        image: imageResponse.data.url,
       };
     });
   };
@@ -57,7 +77,7 @@ const UploadSubCategoryModal = ({ close }) => {
                   <p className="text-sm text-neutral-500">No Image</p>
                 )}
               </div>
-              <label htmlFor="uploadCategoryImage">
+              <label htmlFor="uploadSubCategoryImage">
                 <div
                   className={`${
                     !subCategoryData.name
@@ -69,13 +89,30 @@ const UploadSubCategoryModal = ({ close }) => {
                 </div>
                 <input
                   disabled={!subCategoryData.name || loading}
-                  onChange={handleUploadCategoryImage}
+                  onChange={handleUploadSubCategoryImage}
                   type="file"
                   name="image"
-                  id="uploadCategoryImage"
+                  id="uploadSubCategoryImage"
                   className="hidden"
                 />
               </label>
+            </div>
+          </div>
+          <div className="grid gap-1">
+            <label>Select Category</label>
+            <div className="bg-blue-50 border border-blue-100 focus-within:border-primary-200 rounded">
+              {/* Display Value */}
+
+              {/* Select Category */}
+              <select
+                name=""
+                id=""
+                className="w-full p-2 bg-transparent outline-none"
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+              </select>
             </div>
           </div>
           <button
@@ -86,7 +123,7 @@ const UploadSubCategoryModal = ({ close }) => {
             } py-2 rounded font-medium`}
             disabled={loading}
           >
-            Add Category
+            Add Sub Category
           </button>
         </form>
       </div>
