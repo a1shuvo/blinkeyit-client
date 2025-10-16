@@ -45,7 +45,7 @@ const Profile = () => {
     try {
       setLoading(true);
       const response = await Axios({
-        ...SummaryApi.update_user_details,
+        ...SummaryApi.updateUserDetails,
         data: userData,
       });
 

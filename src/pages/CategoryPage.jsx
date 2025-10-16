@@ -34,7 +34,7 @@ const CategoryPage = () => {
   //   try {
   //     setLoading(true);
   //     const response = await Axios({
-  //       ...SummaryApi.get_category,
+  //       ...SummaryApi.getCategories,
   //     });
   //     const { data: responseData } = response;
   //     if (responseData?.success) {
@@ -54,7 +54,7 @@ const CategoryPage = () => {
   const handleDeleteCategory = async () => {
     try {
       const response = await Axios({
-        ...SummaryApi.delete_category,
+        ...SummaryApi.deleteCategory,
         data: deleteCategory,
       });
       const { data: responseData } = response;

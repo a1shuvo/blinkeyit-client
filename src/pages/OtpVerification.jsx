@@ -24,7 +24,7 @@ const OtpVerification = () => {
 
     try {
       const response = await Axios({
-        ...SummaryApi.forgot_password_otp_verification,
+        ...SummaryApi.verifyForgotPasswordOtp,
         data: {
           email: location?.state?.email,
           otp: data.join(""),

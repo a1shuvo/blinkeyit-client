@@ -7,7 +7,7 @@ const uploadImage = async (image) => {
     formData.append("image", image);
 
     const response = await Axios({
-      ...SummaryApi.upload_image,
+      ...SummaryApi.uploadImage,
       data: formData,
     });
 

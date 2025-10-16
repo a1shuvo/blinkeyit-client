@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
     try {
       const response = await Axios({
-        ...SummaryApi.reset_password,
+        ...SummaryApi.resetPassword,
         data: data,
       });
 

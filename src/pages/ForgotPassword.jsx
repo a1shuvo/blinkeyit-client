@@ -28,7 +28,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await Axios({
-        ...SummaryApi.forgot_password,
+        ...SummaryApi.forgotPassword,
         data: data,
       });
 

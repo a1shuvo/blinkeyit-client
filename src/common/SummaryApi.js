@@ -2,64 +2,68 @@ export const baseURL = "http://localhost:8080";
 
 const SummaryApi = {
   register: {
-    url: "/api/user/register",
+    url: "/api/users/register",
     method: "post",
   },
   login: {
-    url: "/api/user/login",
+    url: "/api/users/login",
     method: "post",
   },
-  forgot_password: {
-    url: "/api/user/forgot-password",
+  forgotPassword: {
+    url: "/api/users/forgot-password",
     method: "put",
   },
-  forgot_password_otp_verification: {
-    url: "/api/user/verify-forgot-password-otp",
+  verifyForgotPasswordOtp: {
+    url: "/api/users/verify-forgot-password-otp",
     method: "put",
   },
-  reset_password: {
-    url: "/api/user/reset-password",
+  resetPassword: {
+    url: "/api/users/reset-password",
     method: "put",
   },
-  refresh_token: {
-    url: "/api/user/refresh-token",
+  refreshToken: {
+    url: "/api/users/refresh-token",
     method: "post",
   },
-  user_details: {
-    url: "/api/user/user-details",
+  userDetails: {
+    url: "/api/users/user-details",
     method: "get",
   },
   logout: {
-    url: "/api/user/logout",
+    url: "/api/users/logout",
     method: "get",
   },
-  upload_avatar: {
-    url: "/api/user/upload-avatar",
+  uploadAvatar: {
+    url: "/api/users/upload-avatar",
     method: "put",
   },
-  update_user_details: {
-    url: "/api/user/update-user",
+  updateUserDetails: {
+    url: "/api/users/update-user",
     method: "put",
   },
-  add_category: {
-    url: "/api/category/add",
+  addCategory: {
+    url: "/api/categories/add",
     method: "post",
   },
-  upload_image: {
-    url: "/api/file/upload",
+  uploadImage: {
+    url: "/api/files/upload",
     method: "post",
   },
-  get_category: {
-    url: "/api/category/get",
+  getCategories: {
+    url: "/api/categories/get",
     method: "get",
   },
-  update_category: {
-    url: "/api/category/update",
+  updateCategory: {
+    url: "/api/categories/update",
     method: "put",
   },
-  delete_category: {
-    url: "/api/category/delete",
+  deleteCategory: {
+    url: "/api/categories/delete",
     method: "delete",
+  },
+  createSubCategory: {
+    url: "/api/sub-categories/create",
+    method: "post",
   },
 };
 

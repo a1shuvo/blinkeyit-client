@@ -32,7 +32,7 @@ const EditCategory = ({ close, fetchData, data: categoryData }) => {
       setLoading(true);
 
       const response = await Axios({
-        ...SummaryApi.update_category,
+        ...SummaryApi.updateCategory,
         data: data,
       });
       const { data: responseData } = response;

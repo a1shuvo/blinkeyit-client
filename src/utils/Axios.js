@@ -51,7 +51,7 @@ Axios.interceptors.request.use(
 const refreshAccessToken = async (refreshToken) => {
   try {
     const response = await Axios({
-      ...SummaryApi.refresh_token,
+      ...SummaryApi.refreshToken,
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

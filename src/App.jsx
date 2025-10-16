@@ -31,7 +31,7 @@ function App() {
     const fetchCategory = async () => {
       try {
         const response = await Axios({
-          ...SummaryApi.get_category,
+          ...SummaryApi.getCategories,
         });
         const { data: responseData } = response;
         if (responseData?.success) {

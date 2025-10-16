@@ -31,7 +31,7 @@ const UploadCategoryModal = ({ close, fetchData }) => {
       setLoading(true);
 
       const response = await Axios({
-        ...SummaryApi.add_category,
+        ...SummaryApi.addCategory,
         data: data,
       });
       const { data: responseData } = response;

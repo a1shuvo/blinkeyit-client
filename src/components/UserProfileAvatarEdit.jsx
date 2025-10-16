@@ -27,7 +27,7 @@ const UserProfileAvatarEdit = ({ close }) => {
     try {
       setLoading(true);
       const response = await Axios({
-        ...SummaryApi.upload_avatar,
+        ...SummaryApi.uploadAvatar,
         data: formData,
       });
       const { data: responseData } = response;
