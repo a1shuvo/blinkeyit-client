@@ -1,8 +1,53 @@
-import { useState } from "react";
+import { createColumnHelper } from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import SummaryApi from "../common/SummaryApi";
+import DisplayTable from "../components/DisplayTable";
 import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
+import Axios from "../utils/Axios";
+import AxiosToastError from "../utils/AxiosToastError";
 
 const SubCategoryPage = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const columnHelper = createColumnHelper();
+
+  const fetchSubCategory = async () => {
+    try {
+      setLoading(true);
+      const response = await Axios({
+        ...SummaryApi.getSubCategory,
+      });
+      const { data: responseData } = response;
+      if (responseData.success) {
+        setData(responseData.data);
+      }
+    } catch (error) {
+      AxiosToastError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubCategory();
+  }, []);
+
+  const column = [
+    columnHelper.accessor("name", {
+      header: "Name",
+    }),
+    columnHelper.accessor("image", {
+      header: "Image",
+      cell: () => {
+        return <img src="" alt="" className="w-8 h-8" />;
+      },
+    }),
+    columnHelper.accessor("category", {
+      header: "Category",
+    }),
+  ];
+
   return (
     <section>
       <div className="p-2 bg-white shadow-md flex items-center justify-between">
@@ -13,6 +58,10 @@ const SubCategoryPage = () => {
         >
           Add Sub Category
         </button>
+      </div>
+
+      <div>
+        <DisplayTable data={data} column={column} />
       </div>
 
       {openAddSubCategory && (
