@@ -39,8 +39,16 @@ const SubCategoryPage = () => {
     }),
     columnHelper.accessor("image", {
       header: "Image",
-      cell: () => {
-        return <img src="" alt="" className="w-8 h-8" />;
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center justify-center">
+            <img
+              src={row.original.image}
+              alt={row.original.name}
+              className="w-8 h-8"
+            />
+          </div>
+        );
       },
     }),
     columnHelper.accessor("category", {
