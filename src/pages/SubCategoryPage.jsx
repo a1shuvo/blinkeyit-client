@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import SummaryApi from "../common/SummaryApi";
 import DisplayTable from "../components/DisplayTable";
 import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
+import ViewImage from "../components/ViewImage";
 import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 
@@ -10,6 +11,7 @@ const SubCategoryPage = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [imageURL, setImageURL] = useState("");
   const columnHelper = createColumnHelper();
 
   const fetchSubCategory = async () => {
@@ -45,7 +47,8 @@ const SubCategoryPage = () => {
             <img
               src={row.original.image}
               alt={row.original.name}
-              className="w-8 h-8"
+              className="w-8 h-8 cursor-pointer"
+              onClick={() => setImageURL(row.original.image)}
             />
           </div>
         );
@@ -75,6 +78,8 @@ const SubCategoryPage = () => {
       {openAddSubCategory && (
         <UploadSubCategoryModal close={() => setOpenAddSubCategory(false)} />
       )}
+
+      {imageURL && <ViewImage url={imageURL} close={() => setImageURL("")} />}
     </section>
   );
 };
