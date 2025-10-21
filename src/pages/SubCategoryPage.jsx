@@ -1,5 +1,7 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import { HiPencil } from "react-icons/hi";
+import { MdDelete } from "react-icons/md";
 import SummaryApi from "../common/SummaryApi";
 import DisplayTable from "../components/DisplayTable";
 import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
@@ -56,6 +58,37 @@ const SubCategoryPage = () => {
     }),
     columnHelper.accessor("category", {
       header: "Category",
+      cell: ({ row }) => {
+        return (
+          <>
+            {row.original.category.map((c, index) => {
+              return (
+                <p
+                  key={c._id + "table"}
+                  className="shadow-md px-1 inline rounded"
+                >
+                  {c.name}
+                </p>
+              );
+            })}
+          </>
+        );
+      },
+    }),
+    columnHelper.accessor("_id", {
+      header: "Action",
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center justify-center gap-3">
+            <button className="p-2 rounded-full bg-green-100 hover:text-green-500 cursor-pointer">
+              <HiPencil size={20} />
+            </button>
+            <button className="p-2 rounded-full bg-red-100 hover:text-red-500 cursor-pointer">
+              <MdDelete size={20} />
+            </button>
+          </div>
+        );
+      },
     }),
   ];
 
