@@ -7,11 +7,12 @@ import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
 import uploadImage from "../utils/uploadImage";
 
-const UploadSubCategoryModal = ({ close }) => {
+const EditSubCategory = ({ close, data, fetchData }) => {
   const [subCategoryData, setSubCategoryData] = useState({
-    name: "",
-    image: "",
-    category: [],
+    _id: data._id,
+    name: data.name,
+    image: data.image,
+    category: data.category || [],
   });
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +58,7 @@ const UploadSubCategoryModal = ({ close }) => {
     e.preventDefault();
     try {
       const response = await Axios({
-        ...SummaryApi.createSubCategory,
+        ...SummaryApi.updateSubCategory,
         data: subCategoryData,
       });
 
@@ -66,6 +67,9 @@ const UploadSubCategoryModal = ({ close }) => {
         toast.success(responseData.message);
         if (close) {
           close();
+        }
+        if (fetchData) {
+          fetchData();
         }
       }
     } catch (error) {
@@ -76,7 +80,7 @@ const UploadSubCategoryModal = ({ close }) => {
     <section className="fixed top-0 bottom-0 left-0 right-0 bg-neutral-800/60 z-50 flex justify-center items-center p-4">
       <div className="bg-white w-full max-w-5xl p-4 rounded">
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold">Add Sub Category</h1>
+          <h1 className="font-semibold">Edit Sub Category</h1>
           <button
             onClick={close}
             className="w-fit block ml-auto cursor-pointer"
@@ -198,7 +202,7 @@ const UploadSubCategoryModal = ({ close }) => {
             } py-2 rounded font-medium`}
             disabled={loading}
           >
-            Add Sub Category
+            Update Sub Category
           </button>
         </form>
       </div>
@@ -206,4 +210,4 @@ const UploadSubCategoryModal = ({ close }) => {
   );
 };
 
-export default UploadSubCategoryModal;
+export default EditSubCategory;

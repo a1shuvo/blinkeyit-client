@@ -4,6 +4,7 @@ import { HiPencil } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import SummaryApi from "../common/SummaryApi";
 import DisplayTable from "../components/DisplayTable";
+import EditSubCategory from "../components/EditSubCategory";
 import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
 import ViewImage from "../components/ViewImage";
 import Axios from "../utils/Axios";
@@ -15,6 +16,10 @@ const SubCategoryPage = () => {
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const columnHelper = createColumnHelper();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [editData, setEditData] = useState({
+    _id: "",
+  });
 
   const fetchSubCategory = async () => {
     try {
@@ -61,7 +66,7 @@ const SubCategoryPage = () => {
       cell: ({ row }) => {
         return (
           <>
-            {row.original.category.map((c, index) => {
+            {row.original.category.map((c) => {
               return (
                 <p
                   key={c._id + "table"}
@@ -80,7 +85,13 @@ const SubCategoryPage = () => {
       cell: ({ row }) => {
         return (
           <div className="flex items-center justify-center gap-3">
-            <button className="p-2 rounded-full bg-green-100 hover:text-green-500 cursor-pointer">
+            <button
+              onClick={() => {
+                setOpenEdit(true);
+                setEditData(row.original);
+              }}
+              className="p-2 rounded-full bg-green-100 hover:text-green-500 cursor-pointer"
+            >
               <HiPencil size={20} />
             </button>
             <button className="p-2 rounded-full bg-red-100 hover:text-red-500 cursor-pointer">
@@ -113,6 +124,14 @@ const SubCategoryPage = () => {
       )}
 
       {imageURL && <ViewImage url={imageURL} close={() => setImageURL("")} />}
+
+      {openEdit && (
+        <EditSubCategory
+          data={editData}
+          close={() => setOpenEdit(false)}
+          fetchData={fetchSubCategory}
+        />
+      )}
     </section>
   );
 };
