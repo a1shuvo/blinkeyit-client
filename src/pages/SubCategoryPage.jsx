@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { HiPencil } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import SummaryApi from "../common/SummaryApi";
+import ConfirmBox from "../components/ConfirmBox";
 import DisplayTable from "../components/DisplayTable";
 import EditSubCategory from "../components/EditSubCategory";
 import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
 import ViewImage from "../components/ViewImage";
 import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
+import toast from "react-hot-toast";
 
 const SubCategoryPage = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
@@ -20,6 +22,10 @@ const SubCategoryPage = () => {
   const [editData, setEditData] = useState({
     _id: "",
   });
+  const [deleteSubCategory, setDeleteSubCategory] = useState({
+    _id: "",
+  });
+  const [openDeleteConfirmBox, setOpenDeleteConfirmBox] = useState(false);
 
   const fetchSubCategory = async () => {
     try {
@@ -94,7 +100,13 @@ const SubCategoryPage = () => {
             >
               <HiPencil size={20} />
             </button>
-            <button className="p-2 rounded-full bg-red-100 hover:text-red-500 cursor-pointer">
+            <button
+              onClick={() => {
+                setOpenDeleteConfirmBox(true);
+                setDeleteSubCategory(row.original);
+              }}
+              className="p-2 rounded-full bg-red-100 hover:text-red-500 cursor-pointer"
+            >
               <MdDelete size={20} />
             </button>
           </div>
@@ -102,6 +114,23 @@ const SubCategoryPage = () => {
       },
     }),
   ];
+
+  const handleDeleteSubCategory = async() => {
+    try {
+      const response = await Axios({
+        ...SummaryApi.deleteSubCategory,
+        data: deleteSubCategory,
+      });
+      const { data: responseData } = response;
+      if (responseData?.success) {
+        toast.success(responseData.message);
+        fetchSubCategory();
+        setOpenDeleteConfirmBox(false);
+      }
+    } catch (error) {
+      AxiosToastError(error);
+    }
+  };
 
   return (
     <section>
@@ -130,6 +159,14 @@ const SubCategoryPage = () => {
           data={editData}
           close={() => setOpenEdit(false)}
           fetchData={fetchSubCategory}
+        />
+      )}
+
+      {openDeleteConfirmBox && (
+        <ConfirmBox
+          close={() => setOpenDeleteConfirmBox(false)}
+          cancel={() => setOpenDeleteConfirmBox(false)}
+          confirm={handleDeleteSubCategory}
         />
       )}
     </section>
