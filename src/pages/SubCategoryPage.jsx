@@ -1,5 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { HiPencil } from "react-icons/hi";
 import { MdDelete } from "react-icons/md";
 import SummaryApi from "../common/SummaryApi";
@@ -10,7 +11,6 @@ import UploadSubCategoryModal from "../components/UploadSubCategoryModal";
 import ViewImage from "../components/ViewImage";
 import Axios from "../utils/Axios";
 import AxiosToastError from "../utils/AxiosToastError";
-import toast from "react-hot-toast";
 
 const SubCategoryPage = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
@@ -115,7 +115,7 @@ const SubCategoryPage = () => {
     }),
   ];
 
-  const handleDeleteSubCategory = async() => {
+  const handleDeleteSubCategory = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.deleteSubCategory,
@@ -126,6 +126,7 @@ const SubCategoryPage = () => {
         toast.success(responseData.message);
         fetchSubCategory();
         setOpenDeleteConfirmBox(false);
+        setDeleteSubCategory({ _id: "" });
       }
     } catch (error) {
       AxiosToastError(error);
@@ -144,7 +145,7 @@ const SubCategoryPage = () => {
         </button>
       </div>
 
-      <div>
+      <div className="overflow-auto w-full max-w-[95vw]">
         <DisplayTable data={data} column={column} />
       </div>
 
